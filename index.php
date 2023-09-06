@@ -6,21 +6,23 @@
         echo "No me pagan por subir links <br>";
         echo "Esta bien no me paguen <br> <br>";
 
-        $query ="SELECT * FROM reporte";
+        $query = "SELECT r.idReporte, r.cantidad, r.fecha, p.nombre AS nombrepro, t.nombre AS nombretec
+          FROM reporte AS r
+          JOIN producto AS p ON r.idProducto = p.idProducto
+          JOIN tecnico AS t ON r.idTecnico = t.idTecnico
+          WHERE r.statusV=1
+          ORDER BY r.idReporte";
 
+if ($result = $conexion->query($query)) {
+    while ($row = $result->fetch_assoc()) {
+        $idReporte = $row["idReporte"];
+        $cantidad = $row["cantidad"];
+        $fecha = $row["fecha"];
+        $nombreProducto = $row["nombrepro"];
+        $nombreTecnico = $row["nombretec"];
 
-    if ($result = $conexion->query($query)) {
-
-		while ($row = $result->fetch_assoc()) {
-			$idRep = $row["idReporte"];
-               $idPro =$row["idProducto"];
-               $cantidad =$row["cantidad"];
-               $fecha =$row["fecha"];
-               $idTec =$row["idTecnico"];
-
-
-			echo $idRep ." " .  $idPro ." " .  $cantidad ." " .  $fecha . " " .  $idTec ."<br>";
-        }
+        echo $idReporte . " " . $nombreProducto . " " . $cantidad . " " . $fecha . " " . $nombreTecnico . "<br>";
+    }
 
             /*freeresultset*/
 	$result->free();
