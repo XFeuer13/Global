@@ -1,11 +1,26 @@
 <?php
 require('fpdf/fpdf.php');
+require("conexion.php");
 
 // Configura la zona horaria a México
 date_default_timezone_set('America/Mexico_City');
 
+
+
 class PDF extends FPDF
 {
+
+    private $elementosPorPagina = 12; // Cantidad de elementos por página
+    private $elementosAgregados = 0;
+    private $conexion;
+
+    function __construct($conexion)
+    {
+        parent::__construct();
+        $this->conexion = $conexion;
+    }
+
+
     function Header()
     {
         // Rutas relativas a las imágenes
@@ -30,10 +45,34 @@ class PDF extends FPDF
         $this-> cell(120,10,"Producto",'LR',0);
         $this-> cell(20,10,"Cantidad",'LR',1);
 
+        $this->elementosAgregados = 0;
+
+        $conexion = new mysqli("localhost", "root", "12345678", "inventario");
+
+
+        $query = "SELECT r.idReporte, r.cantidad, r.fecha, p.nombre AS nombrepro, t.nombre AS nombretec
+        FROM reporte AS r
+        JOIN producto AS p ON r.idProducto = p.idProducto
+        JOIN tecnico AS t ON r.idTecnico = t.idTecnico
+        WHERE r.statusV=1
+        ORDER BY r.idReporte";
+
+        $result = $conexion -> query ($query);
+
+        while ($row = $result->fetch_assoc())
+        {
+            $this->Cell(10,10,$row['idReporte'],'LRB',0);
+            $this->Ln(); 
+            
+
+        }
+
         $this->Line(10, 40, 290, 40); // Ajusta la línea horizontal
         $this->SetFont('Arial', 'B', 12);
         $this->Ln();
     }
+
+
 
     function Footer()
     {

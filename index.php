@@ -8,6 +8,7 @@ echo "Esta bien no me paguen <br> <br>";
 
 // Agrega un botón "Insert" en la esquina superior derecha
 echo "<div style='text-align: left; padding: 10px;'><a href='reporte.php'><button type='button' style='background-color: green; color: white; padding: 10px; font-size: 16px; font-weight: bold;'>Reporte</button></a></div>";
+echo "<div style='text-align: center; padding: 10px;'><a href='respaldoGeneral.php'><button type='button' style='background-color: black; color: red; padding: 10px; font-size: 16px; font-weight: bold;'>BackUP</button></a></div>";
 echo "<div style='text-align: right; padding: 10px;'><a href='insertar.php'><button type='button' style='background-color: blue; color: white; padding: 10px; font-size: 16px; font-weight: bold;'>Insert</button></a></div>";
 
 $query = "SELECT r.idReporte, r.cantidad, r.fecha, p.nombre AS nombrepro, t.nombre AS nombretec
