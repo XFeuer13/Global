@@ -25,8 +25,10 @@ class PDF extends FPDF
 
         $this->Image($imagenIzquierda, 10, 10, 30);
         $this->Image($imagenDerecha, 250, 15, 30); // Ajusta la posición de la imagen derecha
+
         $this->SetFont('Arial', 'B', 16);
         $this->Cell(280, 10, 'Gia de Productos', 0, 1, 'C'); // Ajusta el ancho de la celda
+
         $this->SetFont('Arial', '', 12);
         $this->Cell(0, 10, 'Generado por: Jose Manuel Rangel Cortes', 0, 1, 'C'); 
         $this->Cell(0, 10, 'Tabla de Registros de Productos', 0, 1, 'C'); 
@@ -63,11 +65,12 @@ class PDF extends FPDF
 
         while ($row = $result->fetch_assoc()) {
             if ($this->elementosAgregados >= $this->elementosPorPagina) {
-                // Si se alcanza el límite de elementos por página, agrega una nueva página
+                // Si se alcanza el límite de elementos por página, agrega una nueva página automáticamente
                 $this->AddPage();
                 $this->Header(); // Restablece la cabecera de la tabla
             }
 
+            // Configura los datos de cada registro
             $this->Cell(10, 10, $row['idProducto'], 'LRB', 0, 'C');
             $this->Cell(80, 10, utf8_decode($row['nombre']), 'LRB', 0, 'C');
             $this->Cell(60, 10, utf8_decode($row['numeroSerie']), 'LRB', 0, 'C');
